@@ -30,7 +30,6 @@ export class ProductListPageService{
     this.api.getMapping(this.url, (data : any) => {
       this.page = data
       this.renderFooter()
-      this.router.navigate(['/product/list/' + this.roleService.role])
     })
   }
 

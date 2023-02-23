@@ -12,7 +12,6 @@ import {environtment} from "../../environments/environtment";
 export class LoginComponent {
   constructor(
     public api : APIAny,
-    public roleService : RoleService,
     public router : Router
   ){}
 
@@ -25,7 +24,6 @@ export class LoginComponent {
     let url = environtment.url + '/login'
     this.api.postMapping(url, this.user, (data : any)=>{
       alert("dang ky thanh cong");
-      this.roleService.userTokent = data
       localStorage.setItem('user_web', JSON.stringify(data))
     })
     this.router.navigate(['/'])

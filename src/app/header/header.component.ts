@@ -15,8 +15,7 @@ export class HeaderComponent implements OnInit{
     public buyerService : BuyerService,
   ){}
   ngOnInit(): void {
-    this.roleService.role = "BUYER"
-    this.userService.getUser()
+    this.userService.getBuyer()
   }
 
 }

@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
-import { environtment } from 'src/environments/environtment';
-import { APIAny } from './api-any.service';
-import { CartService } from './cart.service';
-import { RoleService } from './role.service';
+import {Injectable} from '@angular/core';
+import {environtment} from 'src/environments/environtment';
+import {APIAny} from './api-any.service';
+import {CartService} from './cart.service';
+import {RoleService} from './role.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,16 +15,12 @@ export class UserService {
     public api: APIAny,
     public role: RoleService,
     public cartService: CartService
-  ) { }
+  ) {
+  }
 
-  getUser() {
-
+  getBuyer() {
     let url = ''
-
-    if (this.role.role == "BUYER") {
-      url = environtment.url + "/buyer/info"
-    }
-
+    url = environtment.url + "/buyer/info"
     if (url != '') {
       this.api.getMapping(url, (data: any) => {
         this.user = data
@@ -32,42 +28,46 @@ export class UserService {
         console.log(this.cartService.cart);
 
         this.cart = this.user.cart
-        for(let cart of this.cart){
+        for (let cart of this.cart) {
           cart.choice = false
           cart.amountMesseger = ''
         }
       })
     }
   }
-  bill : any
-  listBuy : any[] = []
+
+  bill: any
+  listBuy: any[] = []
   total = 0
-  modalBody : any
+
   buy() {
-    if(this.listBuy.length > 0){
+    if (this.listBuy.length > 0) {
       let url = environtment.url + '/buyer/cart/buy'
-      this.api.putMapping(url, this.listBuy, (data : any)=>{
+      this.api.putMapping(url, this.listBuy, (data: any) => {
         this.bill = data
         document.getElementById("buysuccess")?.click()
-        this.getUser()
+        this.getBuyer()
       })
     }
   }
-  choiceProduct(){
-    setTimeout(()=>{
+
+  choiceProduct() {
+    setTimeout(() => {
       this.listBuy = []
       this.total = 0
       for (let cart of this.cart) {
-        if (cart.choice){
+        if (cart.choice) {
           this.listBuy.push(cart)
           this.total += cart.productDetail.price * cart.amount
         }
       }
-    },100)
+    }, 100)
   }
+
   checkAlls = false
-  checkAll(){
-    setTimeout(()=>{
+
+  checkAll() {
+    setTimeout(() => {
       if (this.checkAlls) {
         for (let cart of this.cart) {
           cart.choice = true
@@ -78,16 +78,16 @@ export class UserService {
         }
       }
       this.choiceProduct()
-    },10)
+    }, 10)
 
   }
 
-  checkCartAmount(i : any){
+  checkCartAmount(i: any) {
 
-    if(this.cart[i].amount < 1){
+    if (this.cart[i].amount < 1) {
       this.cart[i].amountMesseger = "Tối thiểu là 1"
       this.cart[i].amount = 1
-    }else{
+    } else {
       let url = environtment.url + '/buyer/cart/edit-amount/' + this.cart[i].id + '/' + this.cart[i].amount
       console.log(url);
 
@@ -104,11 +104,11 @@ export class UserService {
   }
 
   // xoa 1 oder khoi cart
-  deleteOrder(id : number) {
-   let url = environtment.url + '/buyer/cart/delete/' + id
-    this.api.putMapping(url,{},()=>{
+  deleteOrder(id: number) {
+    let url = environtment.url + '/buyer/cart/delete/' + id
+    this.api.putMapping(url, {}, () => {
       document.getElementById('modalDelete')?.click()
-      this.getUser()
+      this.getBuyer()
     });
   }
 }

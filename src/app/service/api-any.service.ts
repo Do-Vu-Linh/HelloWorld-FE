@@ -5,6 +5,7 @@ import { OnloadService } from './onload.service';
 
 import { environtment, HttpOptions } from 'src/environments/environtment';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import {RoleService} from "./role.service";
 @Injectable({
   providedIn: 'root'
 })
@@ -14,8 +15,15 @@ export class APIAny {
     private http: HttpClient,
     public onloadService: OnloadService,
     public route: Router,
-    public activeRoute: ActivatedRoute
   ) { }
+
+  getToken(){
+    let data : any = localStorage.getItem('user_web')
+    data = JSON.parse(data)
+    let token = `${data.type} ${data.token}`
+    console.log(token)
+    return token
+  }
 
   httpOption: HttpOptions = {
   }
@@ -37,7 +45,7 @@ export class APIAny {
 
   getMapping(url: string, action: any) {
     this.onloadService.onload = true
-    let token : any = localStorage.getItem('token')
+    let token : any = this.getToken()
     this.setHeader(new HttpHeaders().append('Authorization', token))
     this.http.get<any>(url, this.httpOption)
       .pipe(
@@ -51,7 +59,7 @@ export class APIAny {
   /** POST: add a new object to the database */
   postMapping(url: string, object: any, action: any) {
     this.onloadService.onload = true
-    let token : any = localStorage.getItem('token')
+    let token : any = this.getToken()
     this.setHeader(new HttpHeaders().append('Authorization', token))
     this.http.post<any>(url, object, this.httpOption)
       .pipe(
@@ -77,7 +85,7 @@ export class APIAny {
   /** PUT: update the object on the server. Returns the updated hero upon success. */
   putMapping(url: string, object: any, action: any) {
     this.onloadService.onload = true
-    let token : any = localStorage.getItem('token')
+    let token : any = this.getToken()
     this.setHeader(new HttpHeaders().append('Authorization', token))
     this.http.put<any>(url, object, this.httpOption)
       .pipe(

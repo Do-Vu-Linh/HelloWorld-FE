@@ -7,6 +7,7 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { FireBaseService } from './fire-base.service';
 import { upFileArray } from 'src/environments/firebase';
 import { OnloadService } from './onload.service';
+import {UserService} from "./user.service";
 
 
 const API_URL = `${environtment.url}`
@@ -22,7 +23,7 @@ export class ProductDetailService {
     public api: APIAny,
     public cartService: CartService,
     public fireService: FireBaseService,
-    public onLoad: OnloadService,
+    public userService: UserService
   ) { }
 
 
@@ -54,7 +55,7 @@ export class ProductDetailService {
     this.api.postMapping(url, {}, (data: any) => {
       this.cartService.cart = data
       this.amount = 1
-      document.getElementById('modal')?.click()
+      this.userService.getBuyer()
     })
   }
   toCartById(id : number) {
