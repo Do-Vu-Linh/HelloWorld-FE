@@ -83,7 +83,7 @@
         <a href="#" class="dropdown-toggle cart-icon" data-toggle="dropdown" data-hover="dropdown">
           <i class="tf-ion-android-cart"></i>
         </a>
-        <div class="dropdown-menu cart-dropdown">
+        <div class="dropdown-menu cart-dropdown" *ngIf="userService.cart">
           <!-- Cart Item -->
           <div class="media" *ngFor="let cart of userService.cart; let i = index">
             <a routerLink="/product-single">
