@@ -1,0 +1,158 @@
+<div class="account section">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-6">
+        <div class="login-form border p-5">
+          <div class="text-center heading">
+            <h2 class="mb-2">Sign Up Seller</h2>
+            <p class="lead">Already have an account? <a routerLink="/login"> Login now</a></p>
+          </div>
+
+          <form [formGroup]="sellerForm" (ngSubmit)="onSubmit()">
+            <div class="form-group mb-4">
+              <label for="Enter Name Seller">Enter Seller Name</label>
+              <input id="Enter Name Seller" type="text" class="form-control" placeholder="Enter Name Seller" formControlName="name">
+              <!-- valid name start -->
+              <div
+                *ngIf="sellerForm.controls.name.invalid && (sellerForm.controls.name.dirty || sellerForm.controls.name.touched)">
+                <div *ngIf="sellerForm.controls.name.errors?.['required']" class="text-danger">
+                 Bạn phải nhập tên cửa hàng
+                </div>
+              </div>
+              <!-- valid name end -->
+            </div>
+            <div class="form-group mb-4" class="mb-3" formGroupName="user">
+              <label for="User Name">Enter username</label>
+              <a class="float-right" href="">Forget password?</a>
+              <input id="User Name" type="text" class="form-control" placeholder="User Name" (keydown)="checkUserName()"
+                     formControlName="username">
+              <!-- Valid username start -->
+              <div class="text-danger" *ngIf="checkUsername">
+                Tên này đã tồn tại!!
+              </div>
+              <div
+                *ngIf="sellerForm.controls.user.controls.username.invalid && (sellerForm.controls.user.controls.username.dirty || sellerForm.controls.user.controls.username.touched)">
+                <div *ngIf="sellerForm.controls.user.controls.username.errors?.['required']" class="text-danger">
+                  Bạn phải tên đăng nhập
+                </div>
+                <div
+                  *ngIf="sellerForm.controls.user.controls.username.errors?.['pattern']"
+                  class="text-danger">
+                  Mật khẩu yêu cầu hoa thường chữ số ghi liền
+                </div>
+              </div>
+              <!-- Valid username start -->
+            </div>
+            <div class="form-group mb-4">
+              <label for="Phone Number">Phone Number</label>
+              <input id="Phone Number" type="text" class="form-control" placeholder="Phone Number"
+                     formControlName="phoneNumber">
+              <!-- Valid number phone start -->
+              <div
+                *ngIf="sellerForm.controls.phoneNumber.invalid && (sellerForm.controls.phoneNumber.dirty || sellerForm.controls.phoneNumber.touched)">
+                <div *ngIf="sellerForm.controls.phoneNumber.errors?.['required']" class="text-danger">
+                  Bạn phải nhập số điện thoại
+                </div>
+                <div
+                  *ngIf="sellerForm.controls.phoneNumber.errors?.['pattern']"
+                  class="text-danger">
+                  (phải có 10 số và bắt đầu bằng số 0)
+                </div>
+              </div>
+              <!-- Valid number phone end -->
+            </div>
+            <div class="form-group mb-4" class="mb-3" formGroupName="user">
+              <label for="Enter Password">Enter Password</label>
+              <input id="Enter Password" type="text" class="form-control" placeholder="Enter Password"
+                     formControlName="password">
+              <!-- Valid mật khẩu start -->
+              <div
+                *ngIf="sellerForm.controls.user.controls.password.invalid && (sellerForm.controls.user.controls.password.dirty || sellerForm.controls.user.controls.password.touched)">
+                <div *ngIf="sellerForm.controls.user.controls.password.errors?.['required']" class="text-danger">
+                  Bạn phải nhập mật khẩu
+                </div>
+                <div
+                  *ngIf="sellerForm.controls.user.controls.password.errors?.['pattern']"
+                  class="text-danger">
+                  Mật khẩu yêu cầu 6-32 kí tự có chữ hoa , thường và số
+                </div>
+              </div>
+              <!-- Valid mật khẩu end -->
+            </div>
+            <div class="form-group">
+              <label for="Confirm Password">Confirm Password</label>
+              <input id="Confirm Password" type="text" class="form-control" placeholder="Confirm Password"
+                     formControlName="repassword">
+              <!-- valid repassword start -->
+              <div
+                *ngIf="sellerForm.controls.repassword.invalid && (sellerForm.controls.repassword.dirty || sellerForm.controls.repassword.touched)">
+                <div *ngIf="sellerForm.controls.repassword.errors?.['required']" class="text-danger">
+                  Bạn phải nhập mật khẩu
+                </div>
+              </div>
+              <!-- valid repassword end -->
+            </div>
+            <!-- địa chỉ -->
+            <div formGroupName="address">
+              <div class="row p-0">
+                <!-- Thành phố -->
+                <div class="col-4 m-0" formGroupName="province">
+                  <label for="province">Province</label>
+                  <select id="province" class="list-group" formControlName="id"
+                          (change)="addressService.getDistrict($event)">
+                    <option *ngFor="let province of addressService.province" value="{{province.id}}"
+                            class="list-group-item list-group-item-action"
+                    >{{ province.name }}</option>
+                  </select>
+                </div>
+                <!-- Thành phố -->
+                <!-- Huyện start-->
+                <div class="col-4 m-0" formGroupName="district" *ngIf="addressService.district">
+                  <label for="district">District</label>
+                  <select id="district" class="list-group" formControlName="id" style="max-height: 300px;"
+                          (click)="addressService.getWard($event)">
+                    <option class="list-group-item list-group-item-action"
+                            *ngFor="let district of addressService.district" value="{{district.id}}">
+                      {{ district.name }}
+                    </option>
+                  </select>
+                </div>
+                <!-- Huyện end -->
+                <!-- Xã start-->
+                <div class="col-4 m-0" formGroupName="ward" *ngIf="addressService.ward">
+                  <label for="ward">Ward</label>
+                  <select id="ward" class="list-group" formControlName="id" style="max-height: 300px;"
+                          (click)="addressService.getWard($event)">
+                    <option class="list-group-item list-group-item-action" *ngFor="let ward of addressService.ward"
+                            value="{{ward.id}}">
+                      {{ ward.name }}
+                    </option>
+                  </select>
+                </div>
+                <!-- Xã end-->
+              </div>
+              <!-- Địa chỉ chi tiết start -->
+              <div class="form-group">
+                <label for="Address Detail">Address Detail</label>
+                <input id="Address Detail" type="text" class="form-control" placeholder="Address Detail"
+                       formControlName="detail">
+                <!-- valid repassword start -->
+                <div
+                  *ngIf="sellerForm.controls.address.controls.detail.invalid && (sellerForm.controls.address.controls.detail.dirty || sellerForm.controls.address.controls.detail.touched)">
+                  <div *ngIf="sellerForm.controls.address.controls.detail.errors?.['required']"
+                       class="text-danger">
+                    Just Enter
+                  </div>
+                </div>
+                <!-- valid repassword end -->
+              </div>
+              <!-- Địa chỉ chi tiết end -->
+            </div>
+
+            <button type="submit" class="btn btn-main mt-3 btn-block">Signup</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
