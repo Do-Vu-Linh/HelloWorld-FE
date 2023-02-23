@@ -56,7 +56,10 @@ export class HomeComponent implements OnInit {
               private activeRouter: ActivatedRoute,
               public roleService: RoleService,
               userService: UserService,
-              public navSerive: NavService) {
+              public navSerive: NavService,
+              public productDetail : ProductDetailService,
+
+              ) {
     this.userService = userService;
   }
 
@@ -64,5 +67,6 @@ export class HomeComponent implements OnInit {
   slideConfig = {"slidesToShow": 1, "slidesToScroll": 1};
 
   ngOnInit(): void {
+    this.pageService.getListProduct(0);
   }
 }

@@ -96,7 +96,7 @@
                 <span [innerText]="cart.productDetail.price"></span>
               </div>
             </div>
-            <a href="#" class="remove"><i class="tf-ion-close"></i></a>
+            <a (click)="userService.deleteOrder(cart.id)" class="remove"><i class="tf-ion-close"></i></a>
           </div><!-- / Cart Item -->
 
 <!--          &lt;!&ndash; Cart Item &ndash;&gt;-->

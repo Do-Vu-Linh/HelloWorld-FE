@@ -30,7 +30,7 @@ export class UserService {
         this.user = data
         this.cartService.cart = this.user.cart
         console.log(this.cartService.cart);
-        
+
         this.cart = this.user.cart
         for(let cart of this.cart){
           cart.choice = false
@@ -102,6 +102,8 @@ export class UserService {
     }
 
   }
+
+  // xoa 1 oder khoi cart
   deleteOrder(id : number) {
    let url = environtment.url + '/buyer/cart/delete/' + id
     this.api.putMapping(url,{},()=>{

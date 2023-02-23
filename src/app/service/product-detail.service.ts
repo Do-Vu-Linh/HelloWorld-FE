@@ -57,6 +57,14 @@ export class ProductDetailService {
       document.getElementById('modal')?.click()
     })
   }
+  toCartById(id : number) {
+    let url = API_URL + `/buyer/to-cart/${id}/${1}`
+    this.api.postMapping(url, {}, (data: any) => {
+      this.cartService.cart = data
+      this.amount = 1
+      document.getElementById('modal')?.click()
+    })
+  }
 
   amount: number = 0
   amountMessage = ''

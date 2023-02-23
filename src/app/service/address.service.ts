@@ -6,9 +6,9 @@ import { APIAny } from './api-any.service';
   providedIn: 'root'
 })
 export class AddressService {
-  province : Prodvince[] = []
-  district : District[] = []
-  ward : Ward[] = []
+  province : any
+  district : any
+  ward : any
   address = {
     province : {name : "Tỉnh" , id : 0},
     district : {name : "Huyện" , id : 0},
@@ -26,16 +26,14 @@ export class AddressService {
       this.province = data
     })
   }
-  getDistrict(province : Prodvince){
-    this.address.province = province
-    let url = environtment.url + "/address/district/" + province.id
+  getDistrict(id : any){
+    let url = environtment.url + "/address/district/" + id.target.value
     this.api.getMapping(url,(data : any)=>{
       this.district = data
     })
   }
-  getWard(district : District){
-    this.address.district = district
-    let url = environtment.url + "/address/ward/" + district.id
+  getWard(id : any){
+    let url = environtment.url + "/address/ward/" + id.target.value
     this.api.getMapping(url,(data : any)=>{
       this.ward = data
     })

@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {UserService} from "../service/user.service";
 import {RoleService} from "../service/role.service";
+import {BuyerService} from "../service/buyer.service";
 
 @Component({
   selector: 'app-header',
@@ -10,7 +11,8 @@ import {RoleService} from "../service/role.service";
 export class HeaderComponent implements OnInit{
   constructor(
     public userService : UserService,
-    public roleService : RoleService
+    public roleService : RoleService,
+    public buyerService : BuyerService,
   ){}
   ngOnInit(): void {
     this.roleService.role = "BUYER"

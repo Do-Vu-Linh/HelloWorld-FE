@@ -13,6 +13,8 @@ import {ForgotPasswordComponent} from "./forgot-password/forgot-password.compone
 import {ProfileDetailsComponent} from "./profile-details/profile-details.component";
 import {EditAddressComponent} from "./edit-address/edit-address.component";
 import {AddressComponent} from "./address/address.component";
+import {SigninSellerComponent} from "./signin-seller/signin-seller.component";
+import {SigninBuyerComponent} from "./signin-buyer/signin-buyer.component";
 
 const routes: Routes = [
   {path:"",component:HomeComponent},
@@ -23,7 +25,12 @@ const routes: Routes = [
   {path:"dashboard",component:DashboardComponent},
   {path:"order",component:OrdersComponent},
   {path:"login",component:LoginComponent},
-  {path:"signup",component:SignupComponent},
+  {path:"signup", children : [
+      {path:"seller",component:SigninSellerComponent},
+      {path:"buyer",component:SigninBuyerComponent},
+      {path:"",component:SignupComponent},
+
+    ]},
   {path:"forgot-password",component:ForgotPasswordComponent},
   {path:"profile-details",component:ProfileDetailsComponent},
   {path:"edit-address",component:EditAddressComponent},

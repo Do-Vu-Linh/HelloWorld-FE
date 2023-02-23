@@ -97,8 +97,8 @@
       </div>
     </div>
 
-
-    <div class="row">
+<!-- san pham start -->
+    <div class="row" *ngIf="pageService.page">
       <div class="col-lg-3 col-12 col-md-6 col-sm-6 mb-5" *ngFor="let p of pageService.page.content">
         <div class="product">
           <div class="product-wrap">
@@ -109,22 +109,22 @@
 
           <span class="onsale">Sale</span>
           <div class="product-hover-overlay">
-            <a href="#"><i class="tf-ion-android-cart"></i></a>
+            <a (click)="productDetail.toCartById(p.id)"><i class="tf-ion-android-cart"></i></a>
             <a href="#"><i class="tf-ion-ios-heart"></i></a>
           </div>
 
           <div class="product-info">
             <h2 class="product-title h5 mb-0"><a href="#">{{p.name}}</a></h2>
             <span class="price">
-                      {{p.price}}
+                      {{p.price | currency : 'USD'}}
                   </span>
             <span class="price">
-                    {{p.sold}}
+                    Sold {{p.sold}}
                   </span>
           </div>
         </div>
       </div>
-
+<!--  san pham end -->
     </div>
   </div>
 </section>

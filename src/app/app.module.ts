@@ -26,6 +26,8 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {AngularFireStorageModule} from "@angular/fire/compat/storage";
 import {AngularFireDatabaseModule} from "@angular/fire/compat/database";
 import {DragDropModule} from "@angular/cdk/drag-drop";
+import { SigninBuyerComponent } from './signin-buyer/signin-buyer.component';
+import { SigninSellerComponent } from './signin-seller/signin-seller.component';
 
 @NgModule({
   declarations: [
@@ -44,12 +46,13 @@ import {DragDropModule} from "@angular/cdk/drag-drop";
     ForgotPasswordComponent,
     ProfileDetailsComponent,
     AddressComponent,
-    EditAddressComponent
+    EditAddressComponent,
+    SigninBuyerComponent,
+    SigninSellerComponent
   ],
   imports: [  BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    ReactiveFormsModule,
     AngularFireModule.initializeApp(environtment.firebaseConfig),
     AngularFireDatabaseModule,
     AngularFireStorageModule,

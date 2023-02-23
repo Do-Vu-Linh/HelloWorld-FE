@@ -18,10 +18,6 @@ export class APIAny {
   ) { }
 
   httpOption: HttpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json',
-      Authorization: environtment.token
-    })
   }
 
   /**
@@ -30,7 +26,7 @@ export class APIAny {
       Authorization: environtment.token}
    */
   setHeader(header: any) {
-    this.httpOption.headers = new HttpHeaders(header)
+    this.httpOption.headers = header
   }
   /**
    * set dữ liệu cho param
@@ -41,6 +37,8 @@ export class APIAny {
 
   getMapping(url: string, action: any) {
     this.onloadService.onload = true
+    let token : any = localStorage.getItem('token')
+    this.setHeader(new HttpHeaders().append('Authorization', token))
     this.http.get<any>(url, this.httpOption)
       .pipe(
         retry(3), catchError((err : any)=>this.handleError(err))
@@ -53,6 +51,8 @@ export class APIAny {
   /** POST: add a new object to the database */
   postMapping(url: string, object: any, action: any) {
     this.onloadService.onload = true
+    let token : any = localStorage.getItem('token')
+    this.setHeader(new HttpHeaders().append('Authorization', token))
     this.http.post<any>(url, object, this.httpOption)
       .pipe(
         retry(3), catchError((err : any)=>this.handleError(err))
@@ -64,6 +64,8 @@ export class APIAny {
   /** DELETE: delete the hero from the server */
   deleteMapping(url: string, action: any) {
     this.onloadService.onload = true
+    let token : any = localStorage.getItem('token')
+    this.setHeader(new HttpHeaders().append('Authorization', token))
     this.http.delete<any>(url, this.httpOption)
       .pipe(
         retry(3), catchError((err : any)=>this.handleError(err))
@@ -75,18 +77,14 @@ export class APIAny {
   /** PUT: update the object on the server. Returns the updated hero upon success. */
   putMapping(url: string, object: any, action: any) {
     this.onloadService.onload = true
+    let token : any = localStorage.getItem('token')
+    this.setHeader(new HttpHeaders().append('Authorization', token))
     this.http.put<any>(url, object, this.httpOption)
       .pipe(
         retry(3), catchError((err : any)=>this.handleError(err))
       ).subscribe((data) => {
         this.filterData(data, action)
       })
-  }
-  // get param pathvariable
-  getParam(key: string, action: any) {
-    this.activeRoute.paramMap.subscribe((param: ParamMap) => {
-      action(param.get(key))
-    });
   }
 
   public filterData(data: any, action: any) {
@@ -105,7 +103,7 @@ export class APIAny {
   // bắt lỗi của chương trình
   private handleError(error: HttpErrorResponse) {
     console.log(this.a);
-    
+
     if (error.status === 0) {
       // Lỗi trả về từ client
       // A client-side or network error occurred. Handle it accordingly.
